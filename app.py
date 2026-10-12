@@ -23,7 +23,7 @@ CREDENTIALS_FILE = os.path.join(BASE_DIR, "credentials.json")
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 
 app = FastAPI(
-    title="IIT Bombay - Certificate Management System",
+    title="Certificate Management System",
     description="FOSSEE & Free and Open Source Creative Art Library Certificate Manager",
     version="1.0.0"
 )
