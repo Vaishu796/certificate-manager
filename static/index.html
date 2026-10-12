@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Certificate Management System | IIT Bombay & FOSSEE</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="icon" type="image/png" href="/static/iitb_logo.png">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-section">
+        <img src="/static/iitb_logo.png" alt="IIT Bombay Logo" class="brand-logo" onerror="this.style.display='none'">
+        <div class="brand-titles">
+          <h1>FREE AND OPEN SOURCE CREATIVE ART LIBRARY</h1>
+          <p>Certificate Management System &bull; FOSSEE, IIT Bombay</p>
+        </div>
+      </div>
+      <div class="system-status" id="systemStatus">
+        <span class="status-dot"></span>
+        <span id="statusText">Google APIs Connected</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="main-wrapper">
+    <!-- Tabs Navigation -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" id="tabRegister" onclick="switchTab('register')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        Register Activity
+      </button>
+      <button class="tab-btn" id="tabRecent" onclick="switchTab('recent')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3zM9 9h6M9 13h6M9 17h4"/></svg>
+        Recent Registrations
+      </button>
+    </div>
+
+    <!-- Registration Card -->
+    <div class="content-card" id="registrationCard">
+      <div class="card-header-banner">
+        <div>
+          <h2>Register a New Activity</h2>
+          <p>Submit activity details and upload approved certificate template to Google Drive & Sheets</p>
+        </div>
+        <span class="badge-tag">Academic Year 2026</span>
+      </div>
+
+      <!-- Registration Form View -->
+      <form id="activityForm" class="form-body" onsubmit="handleFormSubmit(event)">
+        <div class="form-grid">
+          <!-- Activity Name -->
+          <div class="form-group">
+            <label class="form-label" for="activityName">
+              Activity Name <span class="req-star">*</span>
+            </label>
+            <input type="text" id="activityName" name="activity_name" class="form-input" placeholder="e.g. Advanced Blender 3D Workshop" required>
+          </div>
+
+          <!-- Software -->
+          <div class="form-group">
+            <label class="form-label" for="software">
+              Software <span class="req-star">*</span>
+            </label>
+            <input type="text" id="software" name="software" class="form-input" placeholder="e.g. Blender, Inkscape, GIMP" required>
+          </div>
+
+          <!-- Organising Project -->
+          <div class="form-group">
+            <label class="form-label" for="organisingProject">
+              Organising Project <span class="req-star">*</span>
+            </label>
+            <input type="text" id="organisingProject" name="organising_project" class="form-input" placeholder="e.g. FOSSEE Creative Arts / Spoken Tutorial" required>
+          </div>
+
+          <!-- Coordinator -->
+          <div class="form-group">
+            <label class="form-label" for="coordinator">
+              Coordinator Name <span class="req-star">*</span>
+            </label>
+            <input type="text" id="coordinator" name="coordinator" class="form-input" placeholder="e.g. Prof. Kannan Moudgalya / Project Team" required>
+          </div>
+
+          <!-- Activity Type -->
+          <div class="form-group">
+            <label class="form-label" for="activityType">
+              Activity Type <span class="req-star">*</span>
+            </label>
+            <select id="activityType" name="activity_type" class="form-select" required>
+              <option value="" disabled selected>Select Activity Type</option>
+              <option value="Workshop">Workshop</option>
+              <option value="Seminar">Seminar</option>
+              <option value="Hackathon">Hackathon</option>
+              <option value="Course">Course</option>
+              <option value="Training">Training</option>
+            </select>
+          </div>
+
+          <!-- Dates Row -->
+          <div class="form-group">
+            <label class="form-label">Duration Dates <span class="req-star">*</span></label>
+            <div class="dates-row">
+              <div>
+                <input type="date" id="startDate" name="start_date" class="form-input" required>
+              </div>
+              <div>
+                <input type="date" id="endDate" name="end_date" class="form-input" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Certificate Type Radio Group -->
+          <div class="form-group full-width">
+            <label class="form-label">
+              Certificate Type <span class="req-star">*</span>
+            </label>
+            <div class="cert-radio-grid">
+              <label class="radio-card selected">
+                <input type="radio" name="certificate_type" value="Participation" checked onchange="updateRadioSelection(this)">
+                <span>Participation</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="certificate_type" value="Appreciation" onchange="updateRadioSelection(this)">
+                <span>Appreciation</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="certificate_type" value="Achievement / Winner" onchange="updateRadioSelection(this)">
+                <span>Achievement / Winner</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="certificate_type" value="Contribution" onchange="updateRadioSelection(this)">
+                <span>Contribution</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="certificate_type" value="Completion" onchange="updateRadioSelection(this)">
+                <span>Completion</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="certificate_type" value="Lab Migration" onchange="updateRadioSelection(this)">
+                <span>Lab Migration</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="certificate_type" value="Special Recognition" onchange="updateRadioSelection(this)">
+                <span>Special Recognition</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Blank Certificate Template Upload Dropzone -->
+          <div class="form-group full-width">
+            <label class="form-label">
+              Approved Blank Certificate Template <span class="req-star">*</span>
+            </label>
+            <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
+              <input type="file" id="fileInput" name="file" accept=".pdf,.png,.jpg,.jpeg" style="display:none" onchange="handleFileSelect(this.files)" required>
+              <div class="dropzone-icon">📄</div>
+              <div class="dropzone-title">Click to upload or drag &amp; drop certificate template</div>
+              <div class="dropzone-sub">Supports PDF, PNG, or JPG formats (High-resolution template)</div>
+            </div>
+
+            <!-- Selected File Preview Bar -->
+            <div class="file-preview-card" id="filePreviewCard">
+              <div class="file-preview-info">
+                <img id="thumbImg" class="file-preview-thumb" src="" alt="Thumbnail" style="display:none">
+                <div id="fileIconPdf" style="font-size: 2rem; display:none;">📑</div>
+                <div class="file-preview-names">
+                  <div class="file-name-text" id="fileNameText">filename.png</div>
+                  <div class="file-size-text" id="fileSizeText">240 KB</div>
+                </div>
+              </div>
+              <button type="button" class="remove-file-btn" onclick="clearSelectedFile()" title="Remove file">&times;</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <button type="submit" class="submit-btn" id="submitBtn">
+            <span id="btnText">REGISTER ACTIVITY</span>
+            <span id="btnSpinner" class="spinner" style="display:none"></span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Success Screen -->
+      <div class="success-container" id="successContainer">
+        <div class="success-banner">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+          <span>Activity Registered Successfully</span>
+        </div>
+
+        <div class="details-table-wrapper">
+          <div class="details-grid" id="detailsGrid">
+            <!-- Injected via JavaScript -->
+          </div>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-header">Approved Blank Certificate Template</div>
+          <div class="preview-canvas-box" id="successPreviewBox">
+            <img id="successPreviewImg" src="" alt="Certificate Preview" style="display:none">
+            <div id="pdfSuccessBadge" style="text-align: center; color: var(--primary-navy); display:none">
+              <div style="font-size: 3rem">📑</div>
+              <div style="font-weight: 600; margin-top: 0.5rem;" id="pdfFilenameText">Template Document</div>
+            </div>
+          </div>
+
+          <div class="action-buttons-group">
+            <a id="viewFullBtn" href="#" target="_blank" class="action-btn btn-navy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M10 14L21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+              VIEW FULL SIZE
+            </a>
+            <a id="downloadTemplateBtn" href="#" download class="action-btn btn-maroon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+              DOWNLOAD BLANK TEMPLATE
+            </a>
+            <a id="openDriveBtn" href="#" target="_blank" class="action-btn btn-secondary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              Google Drive
+            </a>
+            <a id="openSheetBtn" href="https://docs.google.com/spreadsheets/d/1MCHnJlIM6MWMwsDD9AYsUMExGFly9ZMAjmlERGq5-EU/edit" target="_blank" class="action-btn btn-secondary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+              Google Sheet
+            </a>
+          </div>
+        </div>
+
+        <button class="action-btn btn-secondary" onclick="resetToRegistration()" style="padding: 0.75rem 1.5rem; font-weight: 700;">
+          &larr; Register Another Activity
+        </button>
+      </div>
+    </div>
+
+    <!-- Recent Registrations Card -->
+    <div class="content-card recent-view" id="recentCard">
+      <div class="card-header-banner">
+        <div>
+          <h2>Recorded Activities</h2>
+          <p>Live synchronized records from the connected Google Spreadsheet</p>
+        </div>
+        <button class="action-btn btn-navy" onclick="loadRecentActivities()" style="background: rgba(255,255,255,0.2);">
+          Refresh Records
+        </button>
+      </div>
+      <div style="padding: 1.5rem;">
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Activity ID</th>
+                <th>Activity Name</th>
+                <th>Software</th>
+                <th>Project</th>
+                <th>Coordinator</th>
+                <th>Type</th>
+                <th>Dates</th>
+                <th>Certificate</th>
+                <th>Template ID</th>
+                <th>Registered At</th>
+              </tr>
+            </thead>
+            <tbody id="recentTableBody">
+              <tr>
+                <td colspan="10" style="text-align: center; padding: 2rem; color: #64748b;">
+                  Loading activity records...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <p>&copy; 2026 Free and Open Source Creative Art Library &bull; FOSSEE Project &bull; Indian Institute of Technology Bombay</p>
+  </footer>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

@@ -1,1 +1,7 @@
 credentials.json
+__pycache__/
+*.pyc
+.env
+.vercel
+static/uploads/*
+!static/uploads/.gitkeep
